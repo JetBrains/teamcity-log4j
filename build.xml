@@ -366,34 +366,6 @@
   </target>
 
   <!-- ================================================================= -->
-  <!-- Runs checkstyle. Available from http://checkstyle.sf.net          -->
-  <!-- ================================================================= -->
-  <target name="checkstyle" depends="init">
-    <taskdef resource="checkstyletask.properties"
-             classpath="${checkstyle.jar}"/>
-
-    <!-- by default checkstyle supports the Sun coding standard. -->
-    <checkstyle lcurlyMethod="nlow"
-                lcurlyOther="nlow"
-                lcurlyType="nlow"
-                maxMethodLen="500"
-                maxConstructorLen="500">
-      <fileset dir="src/java/org/apache/log4j/chainsaw" includes="**/*.java"/>
-    </checkstyle>
-  </target>
-
-  <!-- ================================================================= -->
-  <!-- Runs Chainsaw                                                     -->
-  <!-- ================================================================= -->
-
-  <target name="chainsaw" depends="build">
-    <!-- Need to fork to avoid problems -->
-    <java classname="org.apache.log4j.chainsaw.Main" fork="yes"
-          classpath="${javac.dest};${ant.home}/lib/crimson.jar">
-    </java>
-  </target>
-
-  <!-- ================================================================= -->
   <!-- Remove the temporary manifest file, actual work is done in the    -->
   <!-- dependencies.                                                     -->
   <!-- ================================================================= -->
@@ -420,7 +392,6 @@
                    ${stem}/net/*.class,
                    ${stem}/jdbc/*.class,
                    ${stem}/varia/*.class,
-                   ${stem}/chainsaw/*.class,
                    ${stem}/lf5/**/*.class,
                    ${stem}/lf5/**/*.properties,
                    ${stem}/lf5/**/*.gif,
@@ -479,18 +450,15 @@
              packagenames="org.apache.log4j,
                            org.apache.log4j.config,
                            org.apache.log4j.helpers,
-                           org.apache.log4j.jmx,
                            org.apache.log4j.lf5,
                            org.apache.log4j.net,
                            org.apache.log4j.nt,
                            org.apache.log4j.or,
-                           org.apache.log4j.jdbc,
                            org.apache.log4j.or.sax,
                            org.apache.log4j.or.jms,
                            org.apache.log4j.performance,
                            org.apache.log4j.spi,
                            org.apache.log4j.varia,
-                           org.apache.log4j.chainsaw,
                            org.apache.log4j.xml,
                            org.apache.log4j.xml.examples"
              version="true"
@@ -698,10 +666,6 @@
                    classname="org.apache.log4j.xml.DOMConfigurator"
                    classpath="${jar.dest}/${jar.filename}"/>
         <fail unless="jaxp-found" message="JAXP was not found."/>
-        <available property="jmx-found"
-                   classname="org.apache.log4j.jmx.Agent"
-                   classpath="${jar.dest}/${jar.filename}"/>
-        <fail unless="jmx-found" message="JMX was not found."/>
         <available property="jms-found"
                    classname="org.apache.log4j.net.JMSAppender"
                    classpath="${jar.dest}/${jar.filename}"/>
